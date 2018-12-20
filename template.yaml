@@ -1,56 +1,45 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
-Description: A serverless PDF conversion
+Description: A serverless component for Markdown to DOCX conversion
 Parameters:
-  LambdaLayerArn:
-    Type: String
-    Default: 'arn:aws:lambda:us-east-1:818931230230:layer:pandoc:6'
-  InputFileType:
-    Type: String
-    Default: ''
-  ConversionFileType:
-    Type: String
-    Default: docx
-  ConversionMimeType:
-    Type: String
-    Default: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  ConversionTimeout:
+    Type: Number
+    Default: 60
 Resources:
-  UploadBucket:
+  InputS3Bucket:
     Type: AWS::S3::Bucket
-
-  ResultsBucket:
-    Type: AWS::S3::Bucket
-
   ConvertFileFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      Timeout: 180
+      Timeout: !Ref ConversionTimeout
       MemorySize: 512
       Runtime: nodejs8.10
       CodeUri: src/
       Layers:
-        - !Ref LambdaLayerArn
+        - 'arn:aws:lambda:us-east-1:818931230230:layer:pandoc:6'
       Policies:
       - S3CrudPolicy:
           BucketName: !Sub "${AWS::StackName}-*"
       Environment:
         Variables:
-          RESULTS_BUCKET_NAME: !Ref ResultsBucket
-          EXTENSION: !Sub '.${ConversionFileType}'
-          MIME_TYPE: !Ref ConversionMimeType
+          RESULTS_BUCKET_NAME: !Ref OutputS3Bucket
+          EXTENSION: '.docx'
+          MIME_TYPE: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       Events:
         FileUpload:
           Type: S3
           Properties:
-            Bucket: !Ref UploadBucket
+            Bucket: !Ref InputS3Bucket
             Events: s3:ObjectCreated:*
+  OutputS3Bucket:
+    Type: AWS::S3::Bucket
 
 Outputs:
-    UploadBucket:
-      Description: "Upload S3 bucket"
-      Value: !Ref UploadBucket
-    ResultsBucket:
-      Description: "Results S3 bucket"
-      Value: !Ref ResultsBucket
+  InputS3Bucket:
+    Description: Input S3 bucket
+    Value: !Ref InputS3Bucket
+  OutputS3Bucket:
+    Description: Output S3 bucket
+    Value: !Ref OutputS3Bucket
 

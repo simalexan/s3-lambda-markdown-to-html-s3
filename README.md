@@ -1,29 +1,23 @@
 
-# S3 Bucket -> Lambda (Pandoc Conversion) -> S3 bucket
+# S3 Bucket -> Lambda (Pandoc Convert Markdown to DOCX) -> S3 Bucket
 
 ## Description
 
-This is a serverless component consisting of:
+This is a serverless component that takes uploaded Markdown files from one S3 Bucket, converts them to Microsoft Word DOCX and uploads to another S3 Bucket. It contains:
 
-- an S3 Upload Bucket that accepts files.
+- an Input S3 Bucket that accepts files.
 
-  - `toEmails`, Array of strings, that represent all the emails you want to send an email to,
-  - `subject`, a string representing the subject of the email
-  - `message`, a string representing the message of the email, can be either HTML or regular text
-  It also accepts two optional ones: `ccEmails` and `replyToEmails`, both of Array of strings type.
+- a Lambda that takes the Markdown file from the Input S3 bucket, converts it to a Microsoft Word DOCX and uploads it to the Output one
 
-- a Lambda that sends an email to one or more specified email addresses. Also, depending if the `message` is in a Text or HTML format, it will send it in either of those formats. The `toEmails`,`ccEmails`, and `replyToEmails` parameters must be of Array type.
-
-- an S3 Results Bucket that receives files.
+- an Output S3 Bucket that receives files.
 
 It's a Nuts & Bolts application component for AWS Serverless Application Repository.
 
 ## Deployment Parameters
 
-This component has two CloudFormation deployment parameters:
+This component has one CloudFormation deployment parameter:
 
-- `FromEmail`, a required parameter, represents the email sender. Must be a SES verified email. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error.
-- `CorsOrigin`, an optional parameter, where you can restrict access to only specified domains.
+- `ConversionTimeout`, an optional parameter, represents the timeout of the Conversion Lambda function. By default its 60 seconds.
 
 ## Latest Release - 1.0.0
 
