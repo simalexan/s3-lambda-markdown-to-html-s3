@@ -5,6 +5,9 @@ Parameters:
   LambdaLayerArn:
     Type: String
     Default: 'arn:aws:lambda:us-east-1:818931230230:layer:pandoc:6'
+  InputFileType:
+    Type: String
+    Default: ''
   ConversionFileType:
     Type: String
     Default: docx

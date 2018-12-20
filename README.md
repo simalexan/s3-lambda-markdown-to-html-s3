@@ -1,11 +1,11 @@
 
-# S3 Bucket -> Lambda (Convert to PDF) -> S3 bucket
+# S3 Bucket -> Lambda (Pandoc Conversion) -> S3 bucket
 
 ## Description
 
 This is a serverless component consisting of:
 
-- an Api Gateway with a POST `/send` endpoint, that requires three parameters:
+- an S3 Upload Bucket that accepts files.
 
   - `toEmails`, Array of strings, that represent all the emails you want to send an email to,
   - `subject`, a string representing the subject of the email
@@ -13,6 +13,8 @@ This is a serverless component consisting of:
   It also accepts two optional ones: `ccEmails` and `replyToEmails`, both of Array of strings type.
 
 - a Lambda that sends an email to one or more specified email addresses. Also, depending if the `message` is in a Text or HTML format, it will send it in either of those formats. The `toEmails`,`ccEmails`, and `replyToEmails` parameters must be of Array type.
+
+- an S3 Results Bucket that receives files.
 
 It's a Nuts & Bolts application component for AWS Serverless Application Repository.
 

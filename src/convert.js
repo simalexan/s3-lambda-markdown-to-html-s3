@@ -14,5 +14,5 @@ const childProcess = require('child_process'),
     });
   };
 module.exports = function convert(inFile, outFile) {
-  return execPromise(`/opt/bin/pandoc "${inFile}" -o "${outFile}" --from=markdown -s --self-contained`, path.dirname(inFile));
+  return execPromise(`/opt/bin/pandoc "${inFile}" -o "${outFile}" -s --self-contained`, path.dirname(inFile));
 };
