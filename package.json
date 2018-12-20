@@ -1,0 +1,15 @@
+{
+  "name": "s3-lambda-convert-docx-s3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "package": "aws cloudformation package --template-file template.yaml --output-template-file output.yaml --s3-bucket s3-lambda-convert-docx-s3-bucket",
+    "deploy": "aws cloudformation deploy --template-file output.yaml --stack-name s3-lambda-convert-docx-s3 --capabilities CAPABILITY_IAM",
+    "qd": "npm run package && npm run deploy",
+    "deploy:test": "aws cloudformation deploy --template-file output.yaml --stack-name s3-lambda-convert-docx-s3 --capabilities CAPABILITY_IAM --parameter-overrides ConversionFileType=docx ConversionMimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
