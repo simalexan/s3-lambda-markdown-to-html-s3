@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
-Description: A serverless component for Markdown to DOCX conversion
+Description: A serverless component for Markdown to HTML conversion
 Parameters:
   ConversionTimeout:
     Type: Number
@@ -24,8 +24,8 @@ Resources:
       Environment:
         Variables:
           RESULTS_BUCKET_NAME: !Ref OutputS3Bucket
-          EXTENSION: '.docx'
-          MIME_TYPE: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          EXTENSION: '.html'
+          MIME_TYPE: 'text/html'
       Events:
         FileUpload:
           Type: S3
