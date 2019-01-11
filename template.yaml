@@ -5,9 +5,17 @@ Parameters:
   ConversionTimeout:
     Type: Number
     Default: 60
+  InputBucketName:
+    Type: String
+    Default: 's3-lambda-markdown-input-to-html-s3-bucket'
+  OutputBucketName:
+    Type: String
+    Default: 's3-lambda-html-output-from-markdown-s3-bucket'
 Resources:
   InputS3Bucket:
     Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref InputBucketName
   ConvertFileFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -19,8 +27,10 @@ Resources:
       Layers:
         - 'arn:aws:lambda:us-east-1:145266761615:layer:pandoc:1'
       Policies:
+      - S3ReadPolicy:
+          BucketName: !Ref InputBucketName
       - S3CrudPolicy:
-          BucketName: !Sub "${AWS::StackName}-*"
+          BucketName: !Ref OutputBucketName
       Environment:
         Variables:
           RESULTS_BUCKET_NAME: !Ref OutputS3Bucket
@@ -34,6 +44,8 @@ Resources:
             Events: s3:ObjectCreated:*
   OutputS3Bucket:
     Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref OutputBucketName
 
 Outputs:
   InputS3Bucket:

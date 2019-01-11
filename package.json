@@ -1,10 +1,10 @@
 {
   "name": "s3-lambda-markdown-to-html-s3",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A Serverless Application Repository Component for converting Markdown files from one S3 bucket, to HTML files and into another S3 bucket.",
   "main": "index.js",
   "scripts": {
-    "package": "aws cloudformation package --template-file template.yaml --output-template-file output.yaml --s3-bucket s3-lambda-markdown-to-html-s3-bucket",
+    "package": "aws cloudformation package --template-file template.yaml --output-template-file output.yaml --s3-bucket app-repo-components",
     "deploy": "aws cloudformation deploy --template-file output.yaml --stack-name s3-lambda-markdown-to-html-s3 --capabilities CAPABILITY_IAM",
     "qd": "npm run package && npm run deploy",
     "deploy:test": "aws cloudformation deploy --template-file output.yaml --stack-name s3-lambda-markdown-to-html-s3 --capabilities CAPABILITY_IAM --parameter-overrides InputS3Bucket=s3-lambda-convert-pdf-s3-uploadbucket-1fmr9u6446kry OutputS3Bucket=s3-lambda-convert-pdf-s3-resultsbucket-8w72609rpgfc"

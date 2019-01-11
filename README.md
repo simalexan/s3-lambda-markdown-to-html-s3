@@ -19,9 +19,13 @@ This component has one CloudFormation deployment parameter:
 
 - `ConversionTimeout`, an optional parameter, represents the timeout of the Conversion Lambda function. By default its 60 seconds.
 
-## Latest Release - 1.0.1
+- `InputBucketName`, an optional parameter, represents the name of the Input Markdown Bucket. By default its "s3-lambda-markdown-input-to-html-s3-bucket".
 
-- Updated the Lambda Layer.
+- `OutputBucketName`, an optional parameter, represents the name of the Output HTML Bucket. By default its "s3-lambda-html-output-from-markdown-s3-bucket".
+
+## Latest Release - 1.1.0
+
+- Added Input and Output bucket names as CloudFormation Parameters
 
 ## Roadmap - Upcoming changes
 
